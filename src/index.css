@@ -1,0 +1,42 @@
+/* ─── Fonts ─────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─── Reset & Base ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #f0f4f8;
+  --surface:     #ffffff;
+  --surface-2:   #e8eef5;
+  --primary:     #0a6ebd;
+  --primary-dk:  #074f8a;
+  --primary-lt:  #d0e8fb;
+  --teal:        #0d9488;
+  --teal-lt:     #ccfbf1;
+  --accent:      #f59e0b;
+  --text:        #1a2a3a;
+  --text-2:      #4a6080;
+  --text-3:      #8aa4c0;
+  --border:      #dce8f5;
+  --shadow-sm:   0 2px 8px rgba(10,110,189,.08);
+  --shadow-md:   0 6px 24px rgba(10,110,189,.12);
+  --shadow-lg:   0 16px 48px rgba(10,110,189,.16);
+  --radius:      16px;
+  --radius-sm:   8px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --transition:   all .22s cubic-bezier(.4,0,.2,1);
+}
+
+html, body, #root { height: 100%; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--primary-lt); border-radius: 99px; }
