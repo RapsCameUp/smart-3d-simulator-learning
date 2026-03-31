@@ -31,8 +31,8 @@ const handlePartClick = useCallback((partName) => {
     <div className="heart-module">
       {/* ── Top Navigation Bar ─────────────────────────────────────────── */}
       <header className="hm-navbar">
-        <button className="hm-navbar__back" onClick={() => navigate('/')}>
-          ← Back
+        <button className="hm-navbar__back">
+          ←
         </button>
 
         <div className="hm-navbar__breadcrumb">
