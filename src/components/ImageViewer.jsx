@@ -77,7 +77,7 @@ export default function ImageViewer({ onPageChange }) {
       </div>
 
       {/* Caption */}
-      <div className={`image-viewer__caption ${fade ? 'image-viewer__caption--visible' : ''}`}>
+      <div className="image-viewer__caption">
         {IMAGES[current].caption}
       </div>
 

@@ -57,8 +57,6 @@ const handlePartClick = useCallback((partName) => {
           <ImageViewer onPageChange={setCurrentPage} />
         </section>
 
-        {/* Divider */}
-        <div className="hm-split__divider" aria-hidden="true" />
 
         {/* Right — AI Chat */}
 

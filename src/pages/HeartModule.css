@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  background: linear-gradient(135deg, #8b5cf6 0%, #2a5298 50%, #1e3c72 100%);
   overflow: hidden;
 }
 
@@ -15,8 +15,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background: var(--surface);
-  border-bottom: 1.5px solid var(--border);
+  background:  linear-gradient(135deg, #8b5cf6 0%, #2a5298 50%, #1e3c72 100%);
   box-shadow: var(--shadow-sm);
   gap: 12px;
 }
@@ -37,7 +36,6 @@
 .hm-navbar__back:hover {
   background: var(--primary-lt);
   color: var(--primary);
-  border-color: var(--primary);
 }
 
 .hm-navbar__breadcrumb {
@@ -45,12 +43,12 @@
   align-items: center;
   gap: 8px;
   font-size: .82rem;
-  color: var(--text-3);
+  color: white;
   font-weight: 500;
 }
 .hm-navbar__sep { color: var(--border); }
 .hm-navbar__current {
-  color: var(--text);
+  color: white;
   font-weight: 700;
 }
 
@@ -59,7 +57,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 18px;
-  background: linear-gradient(135deg, #0a6ebd, #0d9488);
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #667eea 100%);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -109,7 +107,6 @@
 
 .hm-split__divider {
   width: 4px;
-  background: var(--border);
   flex-shrink: 0;
   position: relative;
 }
