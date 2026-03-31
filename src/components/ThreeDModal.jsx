@@ -7,6 +7,7 @@ import React, { useState, useRef, useEffect, Suspense, Component } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import './ThreeDModal.css'
 
 function HeartModel({ onPartClick, modelType }) {
@@ -155,6 +156,10 @@ export default function ThreeDModal({ onClose, onPartClick }) {
 
   const [language, setLanguage] = useState('en') // 'en' | 'zu' | 'af'
 
+  const [aiResponse, setAiResponse] = useState('')
+  const [isAiLoading, setIsAiLoading] = useState(false)
+  const [userQuestion, setUserQuestion] = useState('')
+
   const info = selectedPart && HEART_INFO[selectedPart.part]
   ? HEART_INFO[selectedPart.part][language]
   : null
@@ -164,6 +169,45 @@ export default function ThreeDModal({ onClose, onPartClick }) {
 
   const handleRetry = () => {
     setModelKey(prev => prev + 1)
+  }
+
+  // Gemini AI function
+  const askGemini = async (question, partInfo) => {
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY
+    if (!apiKey) {
+      console.error('Gemini API key not found in environment variables')
+      return 'API key not configured. Please add VITE_GEMINI_API_KEY to your .env file.'
+    }
+
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey)
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
+
+      const context = `You are a medical expert explaining heart anatomy. The user is asking about the ${partInfo.title}: ${partInfo.text} Function: ${partInfo.function} Importance: ${partInfo.importance}. Keep your response concise (2-3 sentences max) and focused on the question.`
+
+      const result = await model.generateContent(`${context}\n\nQuestion: ${question}`)
+      const response = await result.response
+      return response.text()
+    } catch (error) {
+      console.error('Gemini API error:', error)
+      return 'Sorry, I encountered an error while processing your question. Please try again.'
+    }
+  }
+
+  const handleAskQuestion = async () => {
+    if (!userQuestion.trim() || !info) return
+
+    setIsAiLoading(true)
+    setAiResponse('')
+
+    try {
+      const response = await askGemini(userQuestion, info)
+      setAiResponse(response)
+    } catch (error) {
+      setAiResponse('Failed to get response. Please try again.')
+    } finally {
+      setIsAiLoading(false)
+    }
   }
 
   return (
@@ -208,6 +252,8 @@ export default function ThreeDModal({ onClose, onPartClick }) {
               onClick={() => {
                 setModelType(prev => prev === 'outside' ? 'inside' : 'outside')
                 setSelectedPart(null) // reset popover
+                setAiResponse('') // clear AI response
+                setUserQuestion('') // clear question
               }}
             >
               {modelType === 'outside' ? 'View Inside The Heart' : 'View Outside The Heart'}
@@ -245,6 +291,8 @@ export default function ThreeDModal({ onClose, onPartClick }) {
                 modelType={modelType}
                 onPartClick={(data) => {
                   setSelectedPart(data)
+                  setAiResponse('') // Clear previous AI response
+                  setUserQuestion('') // Clear previous question
 
                   if (onPartClick) {
                     onPartClick(data.part)
@@ -329,11 +377,28 @@ export default function ThreeDModal({ onClose, onPartClick }) {
       <input
         className="heart-popover__input"
         placeholder={`Ask about ${info?.title}...`}
+        value={userQuestion}
+        onChange={(e) => setUserQuestion(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleAskQuestion()}
       />
-      <button className="heart-popover__send">
-        Ask
+      <button
+        className="heart-popover__send"
+        onClick={handleAskQuestion}
+        disabled={isAiLoading || !userQuestion.trim()}
+      >
+        {isAiLoading ? '...' : 'Ask'}
       </button>
     </div>
+
+    {/* AI Response */}
+    {aiResponse && (
+      <div className="heart-popover__section">
+        <div className="heart-popover__label">AI Response</div>
+        <p className="heart-popover__ai-response">
+          {aiResponse}
+        </p>
+      </div>
+    )}
 
   </div>
 )}

@@ -171,8 +171,8 @@
   position: absolute;
   bottom: 24px;
   left: 24px;
-  width: 340px; /* 🔥 bigger */
-  max-height: 420px;
+  width: 500px;
+  max-height: 600px;
 
   background: rgba(12, 20, 32, 0.96);
   backdrop-filter: blur(14px);
@@ -272,6 +272,12 @@
   transform: scale(1.05);
 }
 
+.heart-popover__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .heart-toggle-btn {
   position: absolute;
   bottom: 20px;
@@ -308,7 +314,13 @@
   color: #fff;
 }
 
-.heart-popover__select:focus {
-  border-color: #60c0ff;
-  box-shadow: 0 0 0 3px rgba(96,192,255,0.22);
+.heart-popover__ai-response {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+  background: rgba(96,192,255,0.1);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #60c0ff;
+  margin-top: 4px;
 }
